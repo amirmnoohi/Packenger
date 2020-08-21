@@ -2,20 +2,20 @@ from struct import *
 
 
 class New:
-    def __init__(self, protocol, y, x):
-        self.protocol = protocol
+    def __init__(self, y, x, protocol):
         self.y = y
         self.x = x
+        self.protocol = protocol
         self.param = [
-            self.protocol,
             self.y,
-            self.x
+            self.x,
+            self.protocol
         ]
 
-        self.pkt = pack('!B6s8s',
-                        self.protocol,
+        self.pkt = pack('!8s8sB',
                         self.y,
-                        self.x
+                        self.x,
+                        self.protocol
                         )
 
     def __str__(self):
@@ -23,7 +23,7 @@ class New:
 
     @staticmethod
     def parse(header):
-        data = list(unpack('!B6s8s', header))
+        data = list(unpack('!8s8sB', header))
         return New(data[0], data[1], data[2])
 
     @staticmethod
